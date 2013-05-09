@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Countdown Demo</title>
+	<link rel="stylesheet" href="css/countdown.css" />
+</head>	
+
+<body>
+	<h1>Countdown Demo</h1>
+	<div id="countdown" style="width:635px"><p>This is content that will be displayed after the countdown is over.</p></div>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+	<script type="text/javascript" src="js/countdown.js"></script>
+	<script type="text/javascript">
+		$('#countdown').dtCountDown({
+			'date':'June 4, 2013 9:00:00'
+		});
+	</script>	
+</body>	
+
+
+</html>
