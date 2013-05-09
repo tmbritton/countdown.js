@@ -1,4 +1,4 @@
-ytPlaylist.js
-=============
 
-Get and display a youtube playlist via Ajax request jQuery plugin.
+countdown.js
+
+jQuery countdown timer plugin
