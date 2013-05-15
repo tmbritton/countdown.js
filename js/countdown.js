@@ -7,12 +7,13 @@
     if(currentdate > expiration) {
       return false;
     }
+    $(this).css('display', 'none');
 
     var _init = function(selector, date, expiration) {
       
       var savedHTML = $(selector).html(); 
 
-      var getNumbers = function(expiration) {
+      var getNumbers = function(expiration, selector) {
         var currentdate = Date.parse(new Date());
         var diff = expiration - currentdate;
 
@@ -29,13 +30,28 @@
           minutes: remainders.mins - remainders.hours * 60,
           seconds: remainders.secs - remainders.mins  * 60,
         };
-        return output;
+        displayNumbers(output, selector);
       }
 
+      var displayNumbers = function(numbers, selector) {
+        var replace = '<span id="days">Days: ' + numbers.days + ', </span><span id="hours">Hours: ' + numbers.hours + ', </span><span id="minutes">Minutes: ' + numbers.minutes + ', </span><span id="seconds">Seconds: ' + numbers.seconds + '</span>'; 
+        selector.html(replace);
+        if(selector.css('display') === 'none') {
+          selector.css('display', 'block');
+        }
+      };
+
       window.setInterval(function() {
-        console.log(getNumbers(expiration));
-        //console.log(savedHTML);
-      }, 1000, selector, expiration, savedHTML);
+        var currentdate = Date.parse(new Date());
+        var expiration = Date.parse(options.date);
+        if(currentdate < expiration) {
+          getNumbers(expiration, selector);
+        } else {
+          if (selector.html() !== savedHTML) {
+            selector.html(savedHTML);
+          }
+        }
+      }, 1000, selector, expiration, savedHTML, currentdate, options);
     };
 
     _init($(this), currentdate, expiration);
