@@ -2,14 +2,17 @@
   $.fn.dtCountDown = function(options) {
     var currentdate = Date.parse(new Date());
     var expiration = Date.parse(options.date);
+    var selector = $(this);
 
     $(this).css('display', 'none');
 
-    var _init = function(selector, date, expiration) {
+    var _init = {
       
-      var savedHTML = $(selector).html(); 
+      savedHTML: function(selector) {
+        return $(selector).html();
+      },
 
-      var getNumbers = function(expiration, selector) {
+      getNumbers: function(expiration, selector) {
         var currentdate = Date.parse(new Date());
         var diff = expiration - currentdate;
 
@@ -26,18 +29,18 @@
           minutes: remainders.mins - remainders.hours * 60,
           seconds: remainders.secs - remainders.mins  * 60,
         };
-        displayNumbers(output, selector);
-      }
+        this.displayNumbers(output, selector);
+      },
 
-      var displayNumbers = function(numbers, selector) {
+      displayNumbers: function(numbers, selector) {
         var replace = '<div id="countdowntime"><span id="days">Days: ' + numbers.days + ', </span><span id="hours">Hours: ' + numbers.hours + ', </span><span id="minutes">Minutes: ' + numbers.minutes + ', </span><span id="seconds">Seconds: ' + numbers.seconds + '</span></div>'; 
         selector.html(replace);
         if(selector.css('display') === 'none') {
           selector.css('display', 'block');
         }
-      };
+      },
 
-      var displayVideo = function() {
+      displayVideo: function() {
         var uagent = navigator.userAgent.toLowerCase();
         if (DetectSmartphone() || DetectTierTablet()) {
             var mobile = {};
@@ -67,29 +70,28 @@
             attributes.align = "middle";
             swfobject.embedSWF("http://cdn.streamingmediahosting.com/assets/flash/smh.baseplayer.client/player.swf", "flashcontent", "640", "525", "10.1.0", false, flashvars, params, attributes);
         }
-      }
+      },
+    };
 
+    if(currentdate > expiration) {
+      $(selector).css('display', 'block');
+      _init.displayVideo();
+      return false;
+    } else {
+      var savedHTML = _init.savedHTML(selector);
       var refreshIntervalId = window.setInterval(function() {
         var currentdate = Date.parse(new Date());
         var expiration = Date.parse(options.date);
         if(currentdate < expiration) {
-          getNumbers(expiration, selector);
+          _init.getNumbers(expiration, selector);
         } else {
           if (selector.html() !== savedHTML) {
             selector.html(savedHTML);
-            displayVideo();
+            _init.displayVideo();
             clearInterval(refreshIntervalId);
           }
         }
       }, 1000, selector, expiration, savedHTML, currentdate, options);
-      return displayVideo();
-    };
-
-    if(currentdate > expiration) {
-      _init.displayVideo();
-      return false;
-    } else {
-      _init($(this), currentdate, expiration);
-    }
+    }  
   };
 })( jQuery );
