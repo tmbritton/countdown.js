@@ -8,13 +8,18 @@
 <body>
 	<h1>Countdown Demo</h1>
 	<div id="countdown" style="width:635px">
-		<iframe width="560" height="315" src="http://www.youtube.com/embed/96gLbxMO93s" frameborder="0" allowfullscreen></iframe>
+		<div id="flashcontent"></div>
 	</div>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+	<script type="text/javascript" src="http://mobileesp.googlecode.com/svn-history/JavaScript/mdetect.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+	<script type="text/javascript" src="http://cdn.streamingmediahosting.com/assets/mobile/smh.mobile.combined-current.min.js"></script>
 	<script type="text/javascript" src="js/countdown.js"></script>
 	<script type="text/javascript">
-		$('#countdown').dtCountDown({
-			'date':'May 15, 2013 15:14:00'
+		$(document).ready(function(){
+			$('#countdown').dtCountDown({
+				'date':'June 4, 2013 10:13:00 GMT-0500 (CDT)'
+			});
 		});
 	</script>	
 </body>	
